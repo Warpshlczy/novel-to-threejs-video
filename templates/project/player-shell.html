@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 播放器安全壳：只允许加载同源页面与自身脚本，禁止外连 -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; frame-src 'self'" />
+  <title>Episode Player</title>
+  <style>
+    html, body, iframe { margin: 0; width: 100%; height: 100%; border: 0; display: block; background: #000; overflow: hidden; }
+    #fallback { position: fixed; inset: 0; display: none; place-items: center; color: #dce6e7;
+                font: 14px/1.7 "PingFang SC", system-ui, sans-serif; background: #070b0e; text-align: center; padding: 24px; }
+    #fallback.show { display: grid; }
+    #fallback button { margin-top: 16px; padding: 10px 22px; background: #dce6e7; border: 0; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <!-- 只加载本项目；sandbox 限制权限，保留脚本与同源（本地自有内容） -->
+  <iframe id="stage" title="Episode" src="./index.html"
+          sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-forms"
+          allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
+
+  <div id="fallback">
+    <div>
+      <strong>成片加载失败</strong>
+      <p>请确认已通过本地 HTTP 服务打开（file:// 会被浏览器拦截），并检查控制台错误。</p>
+      <button id="reload">重新加载</button>
+    </div>
+  </div>
+
+  <script>
+    // 加载超时与失败提示；重新加载用替换 iframe 的方式，确保刷新彻底
+    const frame = document.getElementById('stage');
+    const fallback = document.getElementById('fallback');
+    let timer = setTimeout(() => fallback.classList.add('show'), 15000);
+
+    frame.addEventListener('load', () => {
+      clearTimeout(timer);
+      fallback.classList.remove('show');
+    });
+
+    document.getElementById('reload').addEventListener('click', () => {
+      const next = frame.cloneNode(false);
+      next.src = './index.html?t=0&autoplay=1';
+      frame.replaceWith(next);
+      location.reload();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Python syntax
+        run: python3 -m py_compile templates/project/*.py
+
+      - name: JS syntax
+        run: |
+          node --experimental-default-type=module --check templates/project/compute-state.js
+          node --experimental-default-type=module --check templates/project/export.js
+
+      - name: JSON schema parses
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('templates/project/story.schema.json','utf8')); console.log('schema ok')"
+          node -e "JSON.parse(require('fs').readFileSync('examples/minimal/story.json','utf8')); console.log('example ok')"
+
+      - name: Validate example shots
+        run: python3 templates/project/validate_shots.py examples/minimal/story.json
+
+      - name: No absolute local paths
+        run: |
+          if grep -rn "/Users/" SKILL.md references templates examples README.md CHANGELOG.md; then
+            echo "::error::absolute local path found"
+            exit 1
+          fi
+
+      - name: No story-specific nouns
+        run: |
+          if grep -rnE "北冕|沈洛|老郑|烬海|灰海|浪谷|眼斑|搪瓷" SKILL.md references templates examples README.md CHANGELOG.md; then
+            echo "::error::story-specific noun found; keep the skill generic"
+            exit 1
+          fi

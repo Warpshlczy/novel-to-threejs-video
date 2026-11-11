@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Cinematic Three.js Episode",
+  "type": "object",
+  "required": ["meta", "characters", "locations", "shots", "lines"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["id", "duration", "fps"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "duration": { "type": "number", "minimum": 5, "maximum": 1800 },
+        "fps": { "type": "integer", "minimum": 24, "maximum": 60 },
+        "aspect": { "type": "string", "examples": ["16:9", "2.39:1", "9:16"] },
+        "language": { "type": "string", "default": "zh-CN" }
+      }
+    },
+    "palette": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "model"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "model": { "enum": ["procedural", "gltf", "vrm"] },
+          "src": { "type": "string" },
+          "rig": { "enum": ["none", "humanoid", "custom"] },
+          "lipsync": { "type": "string", "description": "viseme 时间轴文件" },
+          "lock": { "type": "string", "description": "可原样粘贴的连续性锁" }
+        }
+      }
+    },
+    "locations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "src": { "type": "string" },
+          "hdri": { "type": "string" },
+          "fog": { "type": "number" },
+          "lock": { "type": "string" }
+        }
+      }
+    },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "src": { "type": "string" },
+          "clue": {
+            "type": "array",
+            "items": { "enum": ["setup", "reinforce", "payoff"] },
+            "description": "道具线索三处"
+          },
+          "lock": { "type": "string" }
+        }
+      }
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "start", "end", "shotSize", "cutReason"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^S[0-9]+$" },
+          "scene": { "type": "string" },
+          "start": { "type": "number" },
+          "end": { "type": "number" },
+          "shotSize": { "enum": ["ELS", "LS", "MLS", "MS", "MCU", "CU", "ECU"] },
+          "angle": { "enum": ["eye", "low", "high", "top", "dutch"] },
+          "lens": { "type": "number", "minimum": 8, "maximum": 300 },
+          "height": { "type": "number" },
+          "distance": { "type": "number" },
+          "cameraMove": { "type": "string" },
+          "composition": { "type": "string" },
+          "axis": { "type": "string" },
+          "cameraSide": { "enum": ["A", "B", "neutral"] },
+          "blocking": { "type": "array", "items": { "type": "object" } },
+          "beat": { "type": "string" },
+          "newInfo": { "type": "string" },
+          "cutReason": { "type": "string", "minLength": 2 },
+          "soundBridge": { "type": "string" },
+          "lightMotivation": { "type": "string" },
+          "coverage": { "type": "array", "items": { "type": "string" } },
+          "assets": { "type": "array", "items": { "type": "string" } },
+          "continuity": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "shot", "speaker", "sub"],
+        "properties": {
+          "id": { "type": "string" },
+          "shot": { "type": "string" },
+          "speaker": { "type": "string" },
+          "type": { "enum": ["VO", "D"] },
+          "sub": { "type": "string", "description": "屏幕字幕，保留原文" },
+          "voice": { "type": "string", "description": "TTS 读法，可与 sub 不同" },
+          "voiceKey": { "type": "string" },
+          "rate": { "type": "integer" },
+          "optional": { "type": "integer", "description": "超时压稿优先级，越大越先删" },
+          "radio": { "type": "boolean" }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["t", "type"],
+        "properties": {
+          "t": { "type": "number" },
+          "type": { "enum": ["foley", "ambience", "music", "silence", "flash", "alarm", "hud"] },
+          "id": { "type": "string" },
+          "gain": { "type": "number" },
+          "from": { "type": "number" },
+          "to": { "type": "number" }
+        }
+      }
+    },
+    "curves": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": [{ "type": "number" }, { "type": ["number", "string"] }]
+        }
+      }
+    }
+  }
+}

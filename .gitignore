@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+
+node_modules/
+dist/
+build/
+.runtime/
+*.log
+
+# 生成的媒体与缓存（体积大，不进仓库）
+*.mp4
+*.webm
+*.mov
+*.mp3
+*.wav
+*.m4a
+assets/audio/
+assets/generated/
+qa/screenshots/
+
+# 本地环境
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/

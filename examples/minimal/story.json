@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "id": "EP00",
+    "title": "最小示例 · 门缝",
+    "duration": 20,
+    "fps": 30,
+    "aspect": "16:9",
+    "language": "zh-CN"
+  },
+  "palette": {
+    "ink": "#0B1116",
+    "cold": "#22333C",
+    "lead": "#7C8F96",
+    "pale": "#DCE6E7",
+    "warm": "#E8B96A",
+    "alert": "#FF6A2B"
+  },
+  "characters": [
+    {
+      "id": "lead",
+      "name": "主角",
+      "model": "procedural",
+      "rig": "humanoid",
+      "lock": "深灰风衣、无面部剪影、右手持钥匙、身高 1.0 基准"
+    },
+    {
+      "id": "shadow",
+      "name": "门后的人",
+      "model": "procedural",
+      "rig": "none",
+      "lock": "只出现一只眼睛与半张脸的剪影，不出现全身"
+    }
+  ],
+  "locations": [
+    {
+      "id": "hall",
+      "name": "走廊",
+      "fog": 0.03,
+      "lock": "狭窄走廊，尽头一扇门，冷白顶灯只有一盏亮着"
+    },
+    {
+      "id": "room",
+      "name": "房间",
+      "fog": 0.02,
+      "lock": "门内暖光，家具轮廓不清晰，地面有一道门缝光"
+    }
+  ],
+  "props": [
+    {
+      "id": "door",
+      "name": "门",
+      "src": "procedural",
+      "lock": "深色木门，门缝 2cm，门把手在右侧"
+    },
+    {
+      "id": "key",
+      "name": "钥匙",
+      "src": "procedural",
+      "clue": ["setup", "reinforce", "payoff"],
+      "lock": "黄铜钥匙，齿口朝外，握在右手掌心"
+    }
+  ],
+  "shots": [
+    {
+      "id": "S1",
+      "scene": "SC001",
+      "start": 0,
+      "end": 6,
+      "shotSize": "LS",
+      "angle": "eye",
+      "lens": 35,
+      "height": 1.6,
+      "distance": 8,
+      "cameraMove": "slow push 0.6m",
+      "composition": "center, long lead-in line",
+      "axis": "hall",
+      "cameraSide": "A",
+      "blocking": [{ "who": "lead", "at": "hall-mid", "facing": "door" }],
+      "beat": "建立走廊与门的距离",
+      "newInfo": "观众知道主角要去开门",
+      "cutReason": "信息切：交代空间与人物位置",
+      "soundBridge": "L-cut: 走廊底噪延续到下一镜",
+      "lightMotivation": "走廊顶灯一盏",
+      "coverage": ["insert-keyhole"],
+      "assets": ["hall", "lead", "door"],
+      "continuity": ["顶灯只亮一盏", "门缝 2cm"]
+    },
+    {
+      "id": "S2",
+      "scene": "SC001",
+      "start": 6,
+      "end": 11,
+      "shotSize": "ECU",
+      "angle": "eye",
+      "lens": 85,
+      "height": 1.2,
+      "distance": 0.6,
+      "cameraMove": "static",
+      "composition": "center, frame-within-frame",
+      "axis": "hall",
+      "cameraSide": "A",
+      "blocking": [{ "who": "shadow", "at": "behind-door", "facing": "out" }],
+      "beat": "门缝里的眼睛眨了一下",
+      "newInfo": "观众确认门后有人",
+      "cutReason": "视线切：顺着主角视线给所见",
+      "soundBridge": "J-cut: 呼吸声提前 0.4s",
+      "lightMotivation": "门内暖光从缝里透出",
+      "coverage": ["reaction-lead"],
+      "assets": ["door", "shadow"],
+      "continuity": ["门缝宽度不变", "眼睛只出现一次"]
+    },
+    {
+      "id": "S3",
+      "scene": "SC002",
+      "start": 11,
+      "end": 16,
+      "shotSize": "MS",
+      "angle": "eye",
+      "lens": 50,
+      "height": 1.6,
+      "distance": 3,
+      "cameraMove": "static",
+      "composition": "rule-of-thirds-left",
+      "axis": "hall",
+      "cameraSide": "A",
+      "blocking": [{ "who": "lead", "at": "doorway", "facing": "in" }],
+      "beat": "门被推开，房间里没有人",
+      "newInfo": "观众知道刚才的眼睛不在这个房间",
+      "cutReason": "节奏切：静默后推进",
+      "soundBridge": "silence 0.6s 后进门轴声",
+      "lightMotivation": "室内暖光 + 走廊冷光",
+      "coverage": ["empty-hall"],
+      "assets": ["room", "lead", "door"],
+      "continuity": ["地面门缝光方向不变"]
+    },
+    {
+      "id": "S4",
+      "scene": "SC002",
+      "start": 16,
+      "end": 20,
+      "shotSize": "CU",
+      "angle": "high",
+      "lens": 85,
+      "height": 1.7,
+      "distance": 0.5,
+      "cameraMove": "static",
+      "composition": "center, shallow depth",
+      "axis": "hall",
+      "cameraSide": "A",
+      "blocking": [{ "who": "lead", "at": "doorway", "facing": "in" }],
+      "beat": "手心里的钥匙已经不见了",
+      "newInfo": "观众发现钥匙丢了（钩子）",
+      "cutReason": "图形匹配：钥匙与门锁的形状呼应",
+      "soundBridge": "L-cut: 心跳延续到片尾",
+      "lightMotivation": "室内暖光打在手心",
+      "coverage": ["insert-lock"],
+      "assets": ["key", "lead", "room"],
+      "continuity": ["右手掌心朝上", "钥匙不在画面内"]
+    }
+  ],
+  "lines": [
+    {
+      "id": "V01",
+      "shot": "S1",
+      "speaker": "lead",
+      "type": "VO",
+      "sub": "钥匙在口袋里，门就在尽头。",
+      "voice": "钥匙在口袋里，门就在尽头。",
+      "voiceKey": "lead"
+    },
+    {
+      "id": "V02",
+      "shot": "S3",
+      "speaker": "lead",
+      "type": "VO",
+      "sub": "门开了，里面没有人。",
+      "voice": "门开了，里面没有人。",
+      "voiceKey": "lead"
+    },
+    {
+      "id": "V03",
+      "shot": "S4",
+      "speaker": "lead",
+      "type": "VO",
+      "sub": "钥匙不见了。",
+      "voice": "钥匙不见了。",
+      "voiceKey": "lead"
+    }
+  ],
+  "voices": {
+    "lead": { "name": "Eddy (中文（中国大陆）)", "rate": 180, "fallback": "Tingting" }
+  },
+  "events": [
+    { "t": 6.2, "type": "foley", "id": "door_creak", "gain": -18 },
+    { "t": 10.4, "type": "silence", "from": 10.4, "to": 11.0 },
+    { "t": 16.0, "type": "foley", "id": "heartbeat", "gain": -22 }
+  ],
+  "curves": {
+    "fog": [[0, 0.03], [11, 0.02], [20, 0.02]],
+    "exposure": [[0, 1.0], [20, 1.0]]
+  }
+}
