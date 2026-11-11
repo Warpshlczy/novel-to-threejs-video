@@ -26,12 +26,12 @@
 | `references/character-performance.md` | 人物：VRM/骨骼/表情/口型/二次动作/表演方法 |
 | `references/asset-pipeline.md` | 资产：来源与授权、规范化、压缩、LOD、台账、一致性锁 |
 | `references/sound-and-delivery.md` | 声音：配音/拟音/环境/音乐/混音/导出/交付 |
-| `references/component-catalog.md` | 组件选型（GitHub star 已核实）+ ohmygame 可复用零件 |
+| `references/component-catalog.md` | 组件选型（GitHub star 已核实）+ 可复用零件 |
 | `templates/project/` | 可直接复制的脚手架：数据契约、分镜卡、时间轴、构建脚本、校验器、播放器壳、导出脚本 |
 
 ## 安装
 
-支持 Agent Skill 规范的环境（WorkBuddy、Claude Code、Codex 等）任选其一：
+支持 Agent Skill 规范的环境（Claude Code、Codex等）任选其一：
 
 ```bash
 # A. 复制到用户级 skills 目录
