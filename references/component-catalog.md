@@ -24,11 +24,41 @@
 | `met4citizen/TalkingHead` | 1670 | 实时口型 + 全身数字人 | 独立 JS 类 | 集成快，样式需改造 |
 | `met4citizen/HeadTTS` | 184 | 浏览器内神经 TTS + viseme | WebGPU/WASM 或本地服务 | 模型体积需评估 |
 | `DanielSWolf/rhubarb-lip-sync` | 2760 | 音频 → viseme 时间轴 | CLI 预处理 | 最稳，离线可批量 |
-| `Bingeljell/image-to-3dlab` | 1164 | 图/文 → 带贴图 + 自动绑定 + 21 动作 | 本地 Python | 需 Apple Silicon / NVIDIA |
-| `microsoft/TRELLIS` / `TRELLIS.2` | 14242 / 12824 | 图/文 → 3D | 本地 GPU | 需重拓扑与绑定 |
-| `Tencent-Hunyuan/Hunyuan3D-2.1` | 4413 | 图/文 → 3D + PBR | 本地 GPU | 材质质量较好 |
+| `m-bain/whisperX` | 15k | 词级时间戳 + 说话人分离 | Python | 字幕与口型共用 |
+| `jianfch/stable-ts` | 1.8k | Whisper 时间戳稳定化 | Python | WhisperX 的轻量替代 |
 | `DepthAnything/Depth-Anything-V2` | 9136 | 单目深度 | Python 推理 | 用于 2.5D 视差层 |
 | `tencent-ailab/IP-Adapter` | 6713 | 参考图一致性 | Diffusion 管线 | 角色三视图 → 各镜同人 |
+
+### 2.1 图生 3D 与自动绑定
+
+| 组件 | star | 能力 | 显存 | 许可 |
+|---|---|---:|---|---|
+| `microsoft/TRELLIS.2` | 13k | 图生 3D，1536³，PBR，直出 GLB | 24GB | MIT |
+| `Tencent-Hunyuan/Hunyuan3D-2.1` | 4.4k | 图生 3D + PBR 贴图 | 10/21/29GB | 腾讯社区许可 |
+| `microsoft/TRELLIS` | 14k | 2B 图/文生 3D | 16GB | MIT |
+| `VAST-AI-Research/TripoSG` | 1.9k | 高保真几何 | 8–16GB | MIT |
+| `VAST-AI-Research/TripoSR` | 7.4k | 快速图生 3D | 6–8GB | MIT |
+| `aigc3d/LAM` | 1.1k | 单图 → 可动高斯人头 | 12GB+ | Apache 2.0 |
+| `VAST-AI-Research/UniRig` | 1.2k | 自动骨架 + 蒙皮（SIGGRAPH 2025） | 8GB | MIT |
+| `wjakob/instant-meshes` | 6.3k | 自动重拓扑 | CPU | BSD 风格 |
+| `cnr-isti-vclab/meshlab` | 5.9k | 网格清理/补洞 | CPU | GPL |
+| `isl-org/Open3D` | 14k | 点云/网格批处理 | CPU/GPU | MIT |
+| `OpenTexture/Paint3D` | 0.8k | 3D 纹理生成 | 8–16GB | 研究许可，核对 |
+| `RodZill4/material-maker` | 6.3k | 程序化 PBR 材质 | CPU/GPU | MIT |
+
+**托管替代**：`fal.ai` 提供 `fal-ai/trellis-2`、`fal-ai/hunyuan-3d/*`、`fal-ai/meshy/rigging`；`Replicate` 有对应镜像。无 GPU 时按次付费，只为 hero 资产付费。
+
+### 2.2 配音（神经 TTS）
+
+| 组件 | star | 能力 | 许可 |
+|---|---|---:|---|
+| `bilibili/IndexTTS` | 15k | 零样本音色克隆、时长/情绪解耦 | bilibili 模型许可 |
+| `FunAudioLLM/CosyVoice` | 14k | 零样本克隆、指令控制 | Apache 2.0 |
+| `RVC-Boss/GPT-SoVITS` | 48k | 少样本微调、中文强 | MIT |
+| `fishaudio/fish-speech` | 24k | 零样本、多语 | 社区许可（营收阈值） |
+| `resemble-ai/chatterbox` | 9k | 零样本 | MIT |
+| `microsoft/VibeVoice` | 12k | 长对话多说话人 | MIT |
+| `hexgrad/kokoro` | 9k | 轻量、浏览器可跑 | Apache 2.0 |
 
 ## 3. 资产与压缩
 
@@ -66,15 +96,25 @@
 ## 6. 选型决策树
 
 ```
-要不要真实感？
-├─ 要 → 有 GPU/时间？ 
-│        ├─ 有 → 图生 3D（TRELLIS/Hunyuan3D）+ 重拓扑 + 绑定
-│        └─ 没有 → CC0 资产（Poly Haven）+ PBR 套图 + HDRI
-└─ 不要（风格化）→ 程序化几何 + 固定色板 + 少量贴图
+先问：这个镜头必须看清脸吗？
+├─ 必须（CU/ECU）→ 角色必须 T3
+│   ├─ 有 NVIDIA GPU → 本地 TRELLIS.2 / Hunyuan3D-2.1 → 重拓扑 → UniRig
+│   ├─ 无 GPU → fal / Replicate 托管（只为 2–3 个 hero 资产付费）
+│   └─ 都不行 → 改分镜（背影/手/物件/剪影），不要硬拍
+└─ 不必（≤MCU）
+    ├─ 想最快 → VRM（VRoid / Ready Player Me）+ Mixamo
+    ├─ 想可控 → CC0 人形（Poly Haven/Quaternius）+ Mixamo
+    └─ 群像 → CC0 低模 + Instancing
 
-人物要不要说话？
-├─ 要 → VRM + viseme（rhubarb 离线 / HeadTTS 在线）
-└─ 不要 → CC0/程序化 + 二次动作
+场景/道具：
+├─ 有现成 CC0 → Poly Haven / ambientCG 4K PBR
+├─ 造型独特 → 图生 3D + 重拓扑 + 4K 贴图
+└─ 无 UV → triplanar + detail normal（见 threejs-refinement）
+
+配音：
+├─ hero → IndexTTS 2.5 / CosyVoice 3（参考音 + 情绪标注）
+├─ production → edge-tts（免费、可批量）
+└─ prototype → 系统 TTS（仅内部）
 
 要不要导出 MP4？
 ├─ 要 → WebCodecs + mp4-muxer（精确）

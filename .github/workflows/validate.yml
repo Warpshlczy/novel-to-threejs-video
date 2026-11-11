@@ -30,10 +30,23 @@ jobs:
       - name: JSON schema parses
         run: |
           node -e "JSON.parse(require('fs').readFileSync('templates/project/story.schema.json','utf8')); console.log('schema ok')"
+          node -e "JSON.parse(require('fs').readFileSync('templates/project/asset-plan.schema.json','utf8')); console.log('asset-plan schema ok')"
+          node -e "JSON.parse(require('fs').readFileSync('templates/project/quality.lock.json','utf8')); console.log('quality lock ok')"
           node -e "JSON.parse(require('fs').readFileSync('examples/minimal/story.json','utf8')); console.log('example ok')"
 
       - name: Validate example shots
         run: python3 templates/project/validate_shots.py examples/minimal/story.json
+
+      - name: Validate example assets
+        run: python3 templates/project/validate_assets.py examples/minimal/story.json
+
+      - name: build_assets refuses missing plan
+        run: |
+          if python3 templates/project/build_assets.py --plan design/does-not-exist.json; then
+            echo "::error::build_assets should fail when plan is missing"
+            exit 1
+          fi
+          echo "missing-plan guard ok"
 
       - name: No absolute local paths
         run: |

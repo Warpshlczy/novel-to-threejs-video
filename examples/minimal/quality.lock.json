@@ -1,0 +1,13 @@
+{
+  "$comment": "最小示例是内部预演：接受程序化占位资产，资产门放宽；production 档请用 templates/project/quality.lock.json。",
+  "version": 1,
+  "grade": "prototype",
+  "tierRules": {
+    "T0": { "allowedInFinal": false, "maxShotSize": null, "maxLens": 0, "label": "blocking" },
+    "T1": { "allowedInFinal": true, "maxShotSize": "MS", "maxLens": 50, "label": "stylized" },
+    "T2": { "allowedInFinal": true, "maxShotSize": "MCU", "maxLens": 85, "label": "production" },
+    "T3": { "allowedInFinal": true, "maxShotSize": "ECU", "maxLens": 300, "label": "hero" }
+  },
+  "budgets": { "allowProceduralHero": true },
+  "audio": { "minEngine": "any", "bannedEngines": [] }
+}

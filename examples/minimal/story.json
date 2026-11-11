@@ -20,6 +20,8 @@
       "id": "lead",
       "name": "主角",
       "model": "procedural",
+      "tier": "T1",
+      "license": "original",
       "rig": "humanoid",
       "lock": "深灰风衣、无面部剪影、右手持钥匙、身高 1.0 基准"
     },
@@ -27,6 +29,8 @@
       "id": "shadow",
       "name": "门后的人",
       "model": "procedural",
+      "tier": "T1",
+      "license": "original",
       "rig": "none",
       "lock": "只出现一只眼睛与半张脸的剪影，不出现全身"
     }
@@ -35,12 +39,16 @@
     {
       "id": "hall",
       "name": "走廊",
+      "tier": "T1",
+      "license": "original",
       "fog": 0.03,
       "lock": "狭窄走廊，尽头一扇门，冷白顶灯只有一盏亮着"
     },
     {
       "id": "room",
       "name": "房间",
+      "tier": "T1",
+      "license": "original",
       "fog": 0.02,
       "lock": "门内暖光，家具轮廓不清晰，地面有一道门缝光"
     }
@@ -49,12 +57,16 @@
     {
       "id": "door",
       "name": "门",
+      "tier": "T2",
+      "license": "original",
       "src": "procedural",
       "lock": "深色木门，门缝 2cm，门把手在右侧"
     },
     {
       "id": "key",
       "name": "钥匙",
+      "tier": "T2",
+      "license": "original",
       "src": "procedural",
       "clue": ["setup", "reinforce", "payoff"],
       "lock": "黄铜钥匙，齿口朝外，握在右手掌心"

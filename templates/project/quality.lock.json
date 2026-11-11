@@ -1,0 +1,47 @@
+{
+  "$comment": "质量合同：asset gate 的唯一阈值来源。grade=prototype 时资产门放宽（仅供内部预演）。",
+  "version": 1,
+  "grade": "production",
+  "tierRules": {
+    "T0": { "allowedInFinal": false, "maxShotSize": null, "maxLens": 0, "label": "blocking" },
+    "T1": { "allowedInFinal": true, "maxShotSize": "MS", "maxLens": 50, "label": "stylized" },
+    "T2": { "allowedInFinal": true, "maxShotSize": "MCU", "maxLens": 85, "label": "production" },
+    "T3": { "allowedInFinal": true, "maxShotSize": "ECU", "maxLens": 300, "label": "hero" }
+  },
+  "budgets": {
+    "maxCuEcuRatio": 0.25,
+    "maxTeleRatio": 0.3,
+    "allowProceduralHero": false,
+    "minSubjectMapSize": 2048,
+    "maxTexelDeviation": 0.2
+  },
+  "assets": {
+    "character": {
+      "maxTris": { "T1": 15000, "T2": 60000, "T3": 120000 },
+      "minBones": { "T1": 0, "T2": 30, "T3": 55 },
+      "minBlendshapes": { "T3": 15 },
+      "minTexelDensity": { "T2": 512, "T3": 1024 }
+    },
+    "prop": {
+      "maxTris": { "T1": 2000, "T2": 10000, "T3": 30000 },
+      "minTexelDensity": { "T2": 512, "T3": 1024 }
+    },
+    "location": {
+      "maxTris": { "T1": 30000, "T2": 150000, "T3": 400000 },
+      "minTexelDensity": { "T2": 512, "T3": 1024 }
+    }
+  },
+  "requiredMaps": {
+    "character": ["baseColor", "normal", "roughness"],
+    "prop": ["baseColor", "normal", "roughness"],
+    "location": ["baseColor", "normal", "roughness"]
+  },
+  "audio": {
+    "minEngine": "neural",
+    "bannedEngines": ["say", "espeak", "festival"],
+    "lufs": -14,
+    "truePeak": -1.5,
+    "syncMs": 80
+  },
+  "exceptions": []
+}
