@@ -35,13 +35,13 @@
 
 ```bash
 # A. 复制到用户级 skills 目录
-git clone https://github.com/<you>/novel-to-threejs-cinematic.git
+git clone https://github.com/Warpshlczy/novel-to-threejs-cinematic.git
 cp -R novel-to-threejs-cinematic ~/.workbuddy-ai/skills/
 # 或 Claude Code：
 cp -R novel-to-threejs-cinematic ~/.claude/skills/
 
 # B. 用 skills CLI（若你的环境支持）
-npx skills add <you>/novel-to-threejs-cinematic -y -g
+npx skills add Warpshlczy/novel-to-threejs-cinematic -y -g
 ```
 
 ## 快速开始
