@@ -46,7 +46,7 @@ cp -R novel-to-threejs-video ~/.claude/skills/
 npx skills add Warpshlczy/novel-to-threejs-video -y -g
 ```
 
-## 资产等级 T0–T3（v5 核心）
+## 资产等级 T0–T3（v1.1 核心）
 
 | 等级 | 名称 | 典型来源 | 允许的最大画幅 |
 |---|---|---|---|
